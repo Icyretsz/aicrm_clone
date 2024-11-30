@@ -3,8 +3,10 @@ import createApp from './libs/create-app';
 import index from './routes/index.route';
 import user from './routes/examples/users.index';
 import auth0 from './routes/auth0/auth0.index';
+import { cors } from 'hono/cors';
 
-const app = createApp().basePath('/api');
+const app = createApp().basePath('/api')
+app.use('*', cors())
 
 configureOpenAPI(app);
 

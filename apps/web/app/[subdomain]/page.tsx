@@ -1,17 +1,11 @@
 'use client'
 import React, {useEffect, useState} from 'react';
+import {OrganizationReponseType} from "@aicrm/api";
 import {useUser} from "@auth0/nextjs-auth0/client";
-import type {UserProfile} from "@auth0/nextjs-auth0/client";
 import {getOrgFromId} from "../features/auth/hooks/useGetOrgFromId";
-import {OrganizationReponseType} from "@aicrm/api"
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client"
 
-
-interface UserProfileWithOrgName extends UserProfile {
-  org_name: string;
-}
-
-const Page = () => {
-
+export default withPageAuthRequired(function User () {
   const [org, setOrg] = useState<OrganizationReponseType | null>(null);
   const { user } = useUser()
 
@@ -33,6 +27,4 @@ const Page = () => {
       <div><a href='/api/auth/logout'>Logout</a></div>
     </div>
   );
-};
-
-export default Page;
+});
