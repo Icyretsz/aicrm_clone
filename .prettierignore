@@ -1,0 +1,8 @@
+/coverage
+/dist
+.prettierignore
+.docusaurus/
+
+/.nx/workspace-data
+/.nx/cache
+
