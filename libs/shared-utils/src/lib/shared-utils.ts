@@ -16,12 +16,14 @@ export const getOrg = (host: string) => {
 };
 
 export const getDomain = (host: string) => {
-  //if (!host) return null;
+  if (!host) return null;
 
-  const segments = host.split('.');
+  const cleanHost = host.split('/')[0];
 
-  if (host.includes('localhost')) {
-    return 'localhost'
+  const segments = cleanHost.split('.');
+
+  if (cleanHost.includes('localhost')) {
+    return 'localhost';
   }
 
   return segments.slice(-2).join('.');
