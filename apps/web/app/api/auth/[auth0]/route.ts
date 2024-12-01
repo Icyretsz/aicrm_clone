@@ -1,13 +1,15 @@
 import { AfterCallbackAppRoute, AppRouteHandlerFnContext, Session } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { initializeAuth0, getOrg, getHost } from '@aicrm/shared-utils';
+import { initializeAuth0, getOrg, getHost, hasSubdomain } from '@aicrm/shared-utils';
 import { NextRequest, NextResponse } from 'next/server';
 
 const afterCallback: AfterCallbackAppRoute = (req: NextRequest, session: Session) => {
   if (session.user.org_name_initial) {
+    console.log('initial')
+    console.log('session', session);
     const host = getHost();
-    NextResponse.redirect(process.env.NODE_ENV === 'production' ? `https://${host}/${session.user.org_name_initial}`
-      : `http://${host}/${session.user.org_name_initial}`);
+    return NextResponse.redirect(process.env.NODE_ENV === 'production' ? `https://${session.user.org_name_initial}.${host}/main`
+      : `http://${session.user.org_name_initial}.${host}/main`);
   } else {
     return session;
   }
@@ -30,25 +32,37 @@ export const GET = (req: NextRequest, res: NextResponse) => {
     },
     async callback(req: NextRequest, ctx: AppRouteHandlerFnContext) {
       const res = (await auth0.handleCallback(req, ctx, { afterCallback })) as NextResponse;
+      console.log('res', res)
       const session = await auth0.getSession(req, res);
+      console.log('session in callback', session);
       const host = getHost();
       if (host) {
         const orgName = getOrg(host);
         if (session && orgName) {
+          console.log('session orgName')
+          console.log('session', session);
+          console.log('orgName', orgName);
+          console.log('..................')
           return NextResponse.redirect(
             process.env.NODE_ENV === 'production'
-              ? `https://${host}/${orgName}`
-              : `http://${host}/${orgName}`,
+              ? `https://${host}/main`
+              : `http://${host}/main`,
             res
           );
         } else if (session && session.user.org_name) {
+          console.log('session orgName')
+          console.log('session', session);
+          console.log('session.user.org_name', session.user.org_name);
+          console.log('..................')
           return NextResponse.redirect(
             process.env.NODE_ENV === 'production'
-              ? `https://${host}/${session.user.org_name}`
-              : `http://${host}/${session.user.org_name}`,
+              ? `https://${session.user.org_name}.${host}/main`
+              : `http://${session.user.org_name}.${host}/main`,
             res
           );
         } else {
+          console.log('else')
+          console.log('session', session)
           return NextResponse.redirect(
             process.env.NODE_ENV === 'production' ? `https://${host}` : `http://${host}`,
             res
