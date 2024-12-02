@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0/edge';
 
-export async function middleware(request: NextRequest, response: NextResponse) {
+export async function middleware(request: NextRequest) {
+  const response = NextResponse.next()
   const pathname = request.nextUrl.pathname
   const host = request.headers.get('host');
   const session = await getSession(request, response);

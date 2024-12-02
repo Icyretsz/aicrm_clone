@@ -3,21 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { initializeAuth0, getOrg, getHost } from '@aicrm/shared-utils';
 import { NextRequest, NextResponse } from 'next/server';
 
-const afterCallback: AfterCallbackAppRoute = (req: NextRequest, session: Session) => {
-  if (session.user.org_name_initial) {
-    console.log('initial');
-    console.log('session', session);
-    const host = getHost();
-    return NextResponse.redirect(
-      process.env.NODE_ENV === 'production'
-        ? `https://${session.user.org_name_initial}.${host}/main`
-        : `http://${session.user.org_name_initial}.${host}/main`
-    );
-  } else {
-    return session;
-  }
-};
-
 export const GET = (req: NextRequest, res: NextResponse) => {
   const auth0 = initializeAuth0(req);
   return auth0.handleAuth({
@@ -65,7 +50,7 @@ export const GET = (req: NextRequest, res: NextResponse) => {
           );
         }
       } else {
-        return auth0.handleCallback(req, ctx, { afterCallback });
+        return auth0.handleCallback(req, ctx);
       }
     },
   })(req, res);
