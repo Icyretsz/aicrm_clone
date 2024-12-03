@@ -39,10 +39,6 @@ export async function middleware(request: NextRequest) {
             ? `https://${domain}/error/401/unauthorized_org`
             : `http://${domain}/error/401/unauthorized_org`
         );
-      } else if (session) {
-        return NextResponse.redirect(
-          process.env.NODE_ENV === 'production' ? `https://${host}/main` : `http://${host}/main`
-        );
       }
     } else {
       return NextResponse.next();
