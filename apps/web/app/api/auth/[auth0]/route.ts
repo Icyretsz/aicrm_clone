@@ -32,14 +32,15 @@ export const GET = (req: NextRequest, res: NextResponse) => {
                 : `http://${host}/main`,
               res
             );
-          }
-          if (session && session.user.org_name_initial) {
+          } else if (session && session.user.org_name_initial) {
+            console.log('initial')
             return NextResponse.redirect(
               process.env.NODE_ENV === 'production'
                 ? `https://${session.user.org_name_initial}.${host}/main`
                 : `http://${session.user.org_name_initial}.${host}/main`
             );
           } else if (session && session.user.org_name) {
+            console.log('org name')
             return NextResponse.redirect(
               process.env.NODE_ENV === 'production'
                 ? `https://${session.user.org_name}.${host}/main`
@@ -47,7 +48,10 @@ export const GET = (req: NextRequest, res: NextResponse) => {
               res
             );
           } else {
-            return auth0.handleCallback(req, ctx);
+            return NextResponse.redirect(
+              process.env.NODE_ENV === 'production' ? `https://${host}` : `http://${host}`,
+              res
+            );
           }
         } catch (error) {
           const domain = getDomain(host, true);
