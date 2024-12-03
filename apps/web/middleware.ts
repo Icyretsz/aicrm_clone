@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const host = request.headers.get('host');
   const session = await getSession(request, response);
+  console.log('session', session)
   if (host) {
     const segments = host.split('.');
     if (host.includes('localhost') ? segments.length > 1 : segments.length > 2) {
@@ -20,7 +21,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 }
-
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico|api).*)'],
 };

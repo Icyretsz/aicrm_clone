@@ -15,15 +15,17 @@ export const getOrg = (host: string) => {
   return hasSubdomain(host) ? host.split('.')[0] : undefined;
 };
 
-export const getDomain = (host: string) => {
+export const getDomain = (host: string, needPort? : boolean) => {
   if (!host) return null;
 
   const cleanHost = host.split('/')[0];
 
   const segments = cleanHost.split('.');
 
-  if (cleanHost.includes('localhost')) {
+  if (cleanHost.includes('localhost') && !needPort) {
     return 'localhost';
+  } else if (cleanHost.includes('localhost') && needPort) {
+    return 'localhost:3002'
   }
 
   return segments.slice(-2).join('.');
