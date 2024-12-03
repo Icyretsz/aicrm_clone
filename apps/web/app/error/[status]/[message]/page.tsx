@@ -8,7 +8,7 @@ const Page = () => {
 
   if (message.includes('organization') && message.includes('invalid')) {
     errorMessage = 'Organization not exist.'
-  } else if (message.includes('access_denied')) {
+  } else if (message.includes('access_denied') || message.includes('unauthorized_org')) {
     errorMessage = 'User not belong to this organization'
   }
 
