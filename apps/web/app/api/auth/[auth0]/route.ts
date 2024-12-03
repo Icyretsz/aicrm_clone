@@ -1,4 +1,4 @@
-import { AfterCallbackAppRoute, AppRouteHandlerFnContext, CallbackHandlerError, Session } from '@auth0/nextjs-auth0';
+import { AppRouteHandlerFnContext, CallbackHandlerError } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { initializeAuth0, getOrg, getHost, getDomain } from '@aicrm/shared-utils';
 import { NextRequest, NextResponse } from 'next/server';
