@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
   console.log('session', session);
   if (host) {
-    const domain = getDomain(host);
+    const domain = getDomain(host, true);
     const segments = host.split('.');
     if (host.includes('localhost') ? segments.length > 1 : segments.length > 2) {
       if (!session && pathname !== '/main') {
