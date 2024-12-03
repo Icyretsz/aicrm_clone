@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
     const domain = getDomain(host, true);
     const segments = host.split('.');
     if (host.includes('localhost') ? segments.length > 1 : segments.length > 2) {
-      if (!session && pathname !== '/main') {
+      if ((!session && pathname !== '/main') && (session && pathname !== '/main')) {
         return NextResponse.redirect(
           process.env.NODE_ENV === 'production' ? `https://${host}/main` : `http://${host}/main`
         );
