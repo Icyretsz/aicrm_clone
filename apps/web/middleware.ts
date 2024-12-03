@@ -1,7 +1,22 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getSession } from '@auth0/nextjs-auth0/edge';
-import { getDomain } from '@aicrm/shared-utils';
+
+export const getDomain = (host: string, needPort? : boolean) => {
+  if (!host) return null;
+
+  const cleanHost = host.split('/')[0];
+
+  const segments = cleanHost.split('.');
+
+  if (cleanHost.includes('localhost') && !needPort) {
+    return 'localhost';
+  } else if (cleanHost.includes('localhost') && needPort) {
+    return 'localhost:3002'
+  }
+
+  return segments.slice(-2).join('.');
+};
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
