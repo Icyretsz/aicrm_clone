@@ -40,8 +40,12 @@ export async function middleware(request: NextRequest) {
             : `http://${domain}/error/401/unauthorized_org`
         );
       }
+    } else if (pathname === '/main') {
+      return NextResponse.redirect(
+        process.env.NODE_ENV === 'production' ? `https://${host}` : `http://${host}`
+      );
     } else {
-      return NextResponse.next();
+      return NextResponse.next()
     }
   }
 }
