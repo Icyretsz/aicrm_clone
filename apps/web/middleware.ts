@@ -50,5 +50,7 @@ export default withMiddlewareAuthRequired( async function middleware(request: Ne
 })
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|api/auth).*)'
+  ],
 };

@@ -5,7 +5,7 @@ import {useUser} from "@auth0/nextjs-auth0/client";
 import {getOrgFromId} from "../features/auth/hooks/useGetOrgFromId";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0/client"
 
-export default withPageAuthRequired(function User () {
+export default function page () {
   const [org, setOrg] = useState<OrganizationReponseType | null>(null);
   const { user } = useUser()
 
@@ -16,6 +16,7 @@ export default withPageAuthRequired(function User () {
         setOrg(org);
       }
     };
+    console.log(user)
 
     fetchOrg();
   }, [user]);
@@ -27,4 +28,4 @@ export default withPageAuthRequired(function User () {
       <div><a href='/api/auth/logout'>Logout</a></div>
     </div>
   );
-});
+};
